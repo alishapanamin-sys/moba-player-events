@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Privacy Policy</title>
+  <style>
+    body{font-family:Arial, sans-serif; padding:24px; line-height:1.7; max-width:860px; margin:auto;}
+  </style>
+</head>
+<body>
+  <h1>Privacy Policy</h1>
+  <p>We respect user privacy. This website does not collect personal information directly.</p>
+  <p>Users may be redirected to third-party promotional partners where their own terms and privacy policies apply.</p>
+  <p>If you have questions, you may close this page and discontinue at any time.</p>
+</body>
+</html>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MOBA Player Event - Philippines</title>
+  <meta name="description" content="MOBA Player Event for Philippines. Quick eligibility check and limited promotional access." />
+
+  <style>
+    :root{
+      --bg1:#070b18;
+      --bg2:#0b1f2c;
+      --card: rgba(255,255,255,.07);
+      --stroke: rgba(255,255,255,.12);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --gold:#f5c84b;
+      --gold2:#ffe08c;
+      --ok:#33d17a;
+      --danger:#ff5a5a;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 22% 12%, rgba(245,200,75,.18), transparent 60%),
+        radial-gradient(750px 420px at 88% 28%, rgba(80,200,255,.20), transparent 55%),
+        radial-gradient(680px 420px at 60% 92%, rgba(51,209,122,.12), transparent 58%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+      display:flex;
+      justify-content:center;
+      padding:18px;
+    }
+    .wrap{width:min(1040px,100%)}
+    .topbar{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      justify-content:space-between;
+      margin:10px 0 14px;
+      flex-wrap:wrap;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.06);
+      border-radius:999px;
+      font-size:12px;
+      color:var(--muted);
+      backdrop-filter: blur(8px);
+    }
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background: var(--danger);
+      box-shadow: 0 0 0 4px rgba(255,90,90,.14);
+      animation:pulse 1.2s infinite;
+    }
+    @keyframes pulse{
+      0%{transform:scale(1); opacity:1}
+      70%{transform:scale(1.6); opacity:.2}
+      100%{transform:scale(1); opacity:1}
+    }
+
+    .card{
+      border:1px solid var(--stroke);
+      background:var(--card);
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow: 0 16px 55px rgba(0,0,0,.40);
+      backdrop-filter: blur(10px);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+    }
+    @media (max-width: 860px){ .grid{grid-template-columns:1fr} }
+
+    .left{padding:26px 22px 24px}
+    .right{
+      padding:22px;
+      border-left:1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+    }
+    @media (max-width: 860px){
+      .right{border-left:none;border-top:1px solid var(--stroke)}
+    }
+
+    .titleRow{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:10px;
+    }
+    .heroImg{
+      width:62px;height:62px;border-radius:18px;
+      object-fit:cover;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 14px 34px rgba(0,0,0,.25);
+    }
+    h1{
+      margin:0;
+      font-size:clamp(22px, 3vw, 34px);
+      line-height:1.1;
+      letter-spacing:.2px;
+    }
+    .sub{
+      margin:10px 0 14px;
+      color:var(--muted);
+      font-size:15px;
+      line-height:1.6;
+    }
+    .chips{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 16px}
+    .chip{
+      padding:7px 10px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.05);
+      border-radius:999px;
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    /* Visual block */
+    .visual{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+      margin: 12px 0 10px;
+    }
+    .mock{
+      position:relative;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
+      border-radius:16px;
+      overflow:hidden;
+    }
+    .mock img{
+      width:100%;
+      height:auto;
+      display:block;
+      transform: scale(1.01);
+      filter: saturate(1.1) contrast(1.06);
+    }
+    /* Overlay to keep text readable even with official art */
+    .mock::after{
+      content:"";
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.55));
+      pointer-events:none;
+    }
+    .mock .tag{
+      position:absolute;
+      left:10px;
+      bottom:10px;
+      z-index:2;
+      font-size:12px;
+      color: rgba(255,255,255,.85);
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.35);
+      backdrop-filter: blur(8px);
+    }
+
+    .rewardsCard{
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.12);
+      border-radius:16px;
+      padding:12px;
+    }
+    .rTitle{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+    .rTitle small{
+      font-weight:600;
+      color: var(--muted);
+      font-size:12px;
+    }
+    .rGrid{ display:grid; gap:10px; }
+    .rItem{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:10px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.05);
+      border-radius:14px;
+    }
+    .rItem img{
+      width:48px;
+      height:48px;
+      object-fit:cover;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.16);
+    }
+    .rIcon{
+      width:48px;height:48px;border-radius:12px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(245,200,75,.95), rgba(80,200,255,.20));
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow: 0 12px 26px rgba(245,200,75,.14);
+      flex:0 0 48px;
+    }
+    .rItem b{ display:block; font-size:13px; margin-bottom:2px; }
+    .rItem span{ display:block; font-size:12px; color: var(--muted); line-height:1.45; }
+
+    .highlight{
+      border:1px dashed rgba(245,200,75,.45);
+      background: rgba(245,200,75,.08);
+      color: rgba(255,255,255,.90);
+      padding:12px 12px;
+      border-radius:14px;
+      margin:14px 0 16px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .icon{
+      width:22px;height:22px; flex:0 0 22px;
+      border-radius:8px;
+      background: linear-gradient(180deg, var(--gold2), var(--gold));
+      box-shadow: 0 10px 22px rgba(245,200,75,.2);
+    }
+
+    .kpi{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:10px;
+      margin:16px 0 8px;
+    }
+    @media (max-width:520px){ .kpi{grid-template-columns: 1fr} }
+    .kpi .box{
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.05);
+      border-radius:14px;
+      padding:12px;
+    }
+    .kpi .label{font-size:12px;color:var(--muted);margin-bottom:6px}
+    .kpi .val{font-size:16px;font-weight:900}
+
+    .steps{ margin-top:10px; display:grid; gap:10px; }
+    .step{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:12px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.05);
+      border-radius:14px;
+    }
+    .check{
+      width:22px;height:22px;border-radius:7px;
+      background: rgba(51,209,122,.18);
+      border:1px solid rgba(51,209,122,.35);
+      display:grid;place-items:center;
+      color: var(--ok);
+      font-weight:900;
+      flex:0 0 22px;
+    }
+    .step b{display:block; font-size:13px}
+    .step span{display:block; font-size:12px; color:var(--muted); margin-top:2px; line-height:1.45}
+
+    /* Right panel */
+    .panelTitle{font-size:14px;color:var(--muted);margin:0 0 10px}
+    .quiz{
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
+      border-radius:14px;
+      padding:14px;
+    }
+    .q{margin:0 0 10px; font-weight:900}
+    .opt{
+      width:100%;
+      text-align:left;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      padding:12px 12px;
+      border-radius:12px;
+      cursor:pointer;
+      margin:8px 0;
+      transition: transform .08s ease, border-color .15s ease, background .15s ease;
+    }
+    .opt:hover{transform: translateY(-1px); border-color: rgba(245,200,75,.35)}
+    .opt.selected{border-color: rgba(51,209,122,.6); background: rgba(51,209,122,.12)}
+    .cta{
+      margin-top:12px;
+      width:100%;
+      border:0;
+      padding:14px 14px;
+      border-radius:14px;
+      font-weight:1000;
+      letter-spacing:.3px;
+      cursor:pointer;
+      color:#1a1a1a;
+      background: linear-gradient(180deg, var(--gold2), var(--gold));
+      box-shadow: 0 14px 30px rgba(245,200,75,.22);
+      animation: float 1.6s ease-in-out infinite;
+    }
+    @keyframes float{
+      0%,100%{transform: translateY(0)}
+      50%{transform: translateY(-2px)}
+    }
+    .cta:disabled{
+      opacity:.55; cursor:not-allowed;
+      animation:none;
+      box-shadow:none;
+    }
+
+    .mini{
+      margin-top:10px;
+      font-size:12px;
+      color: var(--muted);
+      line-height:1.45;
+    }
+    .trust{
+      display:flex; gap:10px; flex-wrap:wrap;
+      margin-top:12px;
+    }
+    .trust .t{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.04);
+      padding:8px 10px;
+      border-radius:999px;
+    }
+
+    .footer{
+      padding:14px 18px;
+      font-size:11px;
+      color: rgba(255,255,255,.55);
+      border-top:1px solid var(--stroke);
+      background: rgba(0,0,0,.18);
+      line-height:1.5;
+    }
+    .footer a{color: rgba(255,255,255,.70); text-decoration:none; border-bottom:1px dotted rgba(255,255,255,.25)}
+    .footer a:hover{color: rgba(255,255,255,.88)}
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="topbar">
+      <div class="pill"><span class="dot"></span> Live availability check</div>
+      <div class="pill">Philippines • Mobile MOBA • Limited window</div>
+    </div>
+
+    <div class="card">
+      <div class="grid">
+        <!-- LEFT -->
+        <section class="left">
+          <div class="titleRow">
+            <img class="heroImg" src="assets/hero.jpg" alt="Hero" />
+            <div>
+              <div class="pill" style="width:fit-content; margin-bottom:8px;">
+                Player Event • Conditions apply
+              </div>
+              <h1>MOBA Player Event (PH)</h1>
+            </div>
+          </div>
+
+          <p class="sub">
+            Active players in the Philippines may qualify for limited promotional access and reward opportunities.
+            Complete the quick eligibility check to proceed.
+          </p>
+
+          <div class="chips">
+            <div class="chip">Fast check (10–20 sec)</div>
+            <div class="chip">Mobile-friendly</div>
+            <div class="chip">Availability varies</div>
+          </div>
+
+          <!-- VISUALS: gameplay + rewards -->
+          <div class="visual">
+            <div class="mock">
+              <img src="assets/game.jpg" alt="Gameplay preview" />
+              <div class="tag">Gameplay preview</div>
+            </div>
+
+            <div class="rewardsCard">
+              <div class="rTitle">
+                <span>Rewards inside the event</span>
+                <small>availability varies</small>
+              </div>
+
+              <div class="rGrid">
+                <div class="rItem">
+                  <img src="assets/rewards.jpg" alt="Rewards" />
+                  <div>
+                    <b>Reward options</b>
+                    <span>May include different reward types based on eligibility.</span>
+                  </div>
+                </div>
+
+                <div class="rItem">
+                  <div class="rIcon"></div>
+                  <div>
+                    <b>Limited access window</b>
+                    <span>Slots and availability can change throughout the day.</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="highlight">
+            <div class="icon"></div>
+            <div>
+              <div style="font-weight:1000;margin-bottom:4px;">Today’s window is limited</div>
+              <div style="font-size:12px;color:var(--muted);line-height:1.45">
+                Access depends on availability and eligibility. Please complete the short check to continue.
+              </div>
+            </div>
+          </div>
+
+          <div class="kpi">
+            <div class="box">
+              <div class="label">Slots remaining</div>
+              <div class="val" id="slots">17</div>
+            </div>
+            <div class="box">
+              <div class="label">Time left</div>
+              <div class="val" id="timer">09:59</div>
+            </div>
+            <div class="box">
+              <div class="label">Region</div>
+              <div class="val">Philippines</div>
+            </div>
+          </div>
+
+          <div class="steps">
+            <div class="step">
+              <div class="check">✓</div>
+              <div>
+                <b>Step 1 — Confirm active player status</b>
+                <span>Select your status in the quick check.</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="check">✓</div>
+              <div>
+                <b>Step 2 — Complete short registration</b>
+                <span>Proceed to a brief form to continue.</span>
+              </div>
+            </div>
+            <div class="step">
+              <div class="check">✓</div>
+              <div>
+                <b>Step 3 — View available promotion</b>
+                <span>What you see depends on eligibility and current availability.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RIGHT -->
+        <aside class="right">
+          <p class="panelTitle">Quick Eligibility Check</p>
+
+          <div class="quiz">
+            <p class="q">Are you currently playing mobile MOBA games?</p>
+            <button class="opt" data-group="active" data-answer="yes">Yes, I’m an active player</button>
+            <button class="opt" data-group="active" data-answer="sometimes">Sometimes</button>
+            <button class="opt" data-group="active" data-answer="no">No</button>
+
+            <p class="q" style="margin-top:14px;">Are you located in the Philippines?</p>
+            <button class="opt" data-group="region" data-answer="ph_yes">Yes</button>
+            <button class="opt" data-group="region" data-answer="ph_no">No</button>
+
+            <button id="continueBtn" class="cta" disabled>Continue</button>
+
+            <div class="mini">
+              By continuing, you agree to proceed to the next step. Availability may change.
+            </div>
+
+            <div class="trust">
+              <div class="t">Mobile optimized</div>
+              <div class="t">Secure step</div>
+              <div class="t">No guaranteed claims</div>
+            </div>
+          </div>
+
+          <div class="mini" style="margin-top:12px;">
+            Ad tip: Use <b>Learn More</b> or <b>Check Now</b> as the CTA in Facebook Ads.
+          </div>
+        </aside>
+      </div>
+
+      <div class="footer">
+        Conditions apply. This page is for promotional purposes and is <b>not affiliated with</b> any official game publisher.
+        Eligibility and availability may vary by user and time. If you do not qualify, you may see alternative options.
+        <br><br>
+        <a href="privacy.html">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ✅ ضع رابط الـ CPA هنا:
+    const CPA_LINK = "https://adsmain.bountyads.store/?utm_medium=45cb5b04ee2dd3d524876ef99d99f52ba4436745&utm_campaign=newphl";
+
+    // Quiz state
+    const continueBtn = document.getElementById("continueBtn");
+    const opts = Array.from(document.querySelectorAll(".opt"));
+    const answers = { active: null, region: null };
+
+    function setSelected(group, btn){
+      opts.filter(x => x.dataset.group === group).forEach(x => x.classList.remove("selected"));
+      btn.classList.add("selected");
+    }
+
+    function updateContinueState(){
+      const okActive = answers.active && answers.active !== "no";
+      const okRegion = answers.region === "ph_yes";
+      continueBtn.disabled = !(okActive && okRegion);
+    }
+
+    opts.forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const group = btn.dataset.group;
+        const ans = btn.dataset.answer;
+        if(group === "active") answers.active = ans;
+        if(group === "region") answers.region = ans;
+        setSelected(group, btn);
+        updateContinueState();
+      });
+    });
+
+    continueBtn.addEventListener("click", ()=>{
+      if(CPA_LINK.includes("YOUR_CPA_LINK_HERE")){
+        alert("Please replace YOUR_CPA_LINK_HERE with your real CPA link.");
+        return;
+      }
+      window.location.href = CPA_LINK;
+    });
+
+    // Countdown + slots (visual urgency)
+    let seconds = 10 * 60 - 1; // 09:59
+    const timerEl = document.getElementById("timer");
+    const slotsEl = document.getElementById("slots");
+    let slots = 17;
+
+    function tick(){
+      const mm = String(Math.floor(seconds / 60)).padStart(2,"0");
+      const ss = String(seconds % 60).padStart(2,"0");
+      timerEl.textContent = `${mm}:${ss}`;
+
+      if(seconds % 75 === 0 && seconds !== 0 && slots > 5){
+        slots -= 1;
+        slotsEl.textContent = slots;
+      }
+
+      seconds--;
+      if(seconds < 0){
+        seconds = 10 * 60 - 1;
+        slots = 17;
+        slotsEl.textContent = slots;
+      }
+    }
+    setInterval(tick, 1000);
+  </script>
+</body>
+</html>
